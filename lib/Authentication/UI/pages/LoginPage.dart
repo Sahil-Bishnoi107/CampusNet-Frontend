@@ -1,3 +1,4 @@
+import 'package:campusnet/Authentication/Data/AuthRepo.dart';
 import 'package:campusnet/Authentication/UI/widgets/HeaderText.dart';
 import 'package:campusnet/Authentication/UI/widgets/LoginButton.dart';
 import 'package:campusnet/Authentication/UI/widgets/SocailLoginWidget.dart';
@@ -14,80 +15,129 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   @override
+  void initState(){
+    super.initState();
+     Authrepo().initAuthListener(context);
+  }
+  @override
   Widget build(BuildContext context) {
-
+    
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(child: _loginOptions(context))
+           _loginSection(context),
+          _image(context)
         ],
       ),
     );
   }
 }
 
-Widget _loginOptions(BuildContext context ){
+Widget _loginSection(BuildContext context){
   double height = MediaQuery.of(context).size.height;
-  double width = MediaQuery.of(context).size.height;
+  double width = MediaQuery.of(context).size.width;
   return Container(
-    height: height,width: width,
+    height: height*0.96,
+    padding: EdgeInsets.only(left: width*0.1,right: width*0.1),
+    child: _loginOptions(context),
+  );
+}
+
+Widget _loginOptions(BuildContext context) {
+  double height = MediaQuery.of(context).size.height;
+  double width = MediaQuery.of(context).size.width;
+  return Container(
+    height: height*0.9,width: width*0.24,
     child: Column(
-      children: [
-        SizedBox(height: height*0.2,),
-        HeaderText( height, width),
-        TextfieldWidget(name: "Email", bodyText: "xyz@gmail.com", boxHeight: 1, boxWidth: 1),
-        SizedBox(height: height*0.02,),
-        TextfieldWidget(name: "Password", bodyText: "********", boxHeight: 1, boxWidth: 1),
-        _forgotPassword(height, width),
-        Loginbutton(type: "Login"),
-        _divider(height, width),
-        SizedBox(height: height*0.04,),
-        Socailloginwidget(type: "Google", icon: FontAwesome.google_brand),
-        Socailloginwidget(type: "Github", icon: FontAwesome.github_brand),
-        SizedBox(height: height*0.04,),
-        _signUpOption(height, width)
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [  
+         HeaderText(),
+         SizedBox(height: height*0.04),
+         TextfieldWidget(name: "Email", bodyText: "Example@gmail.com"),
+         SizedBox(height: height*0.01),
+         TextfieldWidget(name: "Password", bodyText: "At least 8 characters"),
+        _forgotPassword(),
+         SizedBox(height: height * 0.01),
+         Loginbutton(type: "Sign In"),
+         SizedBox(height: 20),
+        _divider(),
+         SizedBox(height: 20),
+         InkWell(
+          onTap: () {
+            Authrepo().signInWithGoogle();
+          },
+          child: Socailloginwidget(type: "Sign in with Google", icon: FontAwesome.google_brand)),
+         SizedBox(height: 10),
+         InkWell(
+          onTap: () {
+            Authrepo().signInWithGoogle();
+          },
+          child: Socailloginwidget(type: "Sign in with Github", icon: FontAwesome.github_brand)), 
+         SizedBox(height: 30),
+        _signUpOption()
       ],
     ),
   );
 }
 
-
-Widget _forgotPassword(double height, double width){
-  return Container(
-    width: width*0.3,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-      Text("Forgot Password?", style: TextStyle(color: Colors.blue),)
-      ],
+Widget _forgotPassword() {
+  return Align(
+    alignment: Alignment.centerRight,
+    child: TextButton(
+      onPressed: () {},
+      child: const Text(
+        "Forgot Password?",
+        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold,fontSize: 12,fontFamily: 'Nunito'),
+      ),
     ),
   );
 }
 
-Widget _divider(double height, double width){
-  return Container(
-    width: width*0.3,
-    height: height*0.04,
-    child: Row(
-      children: [
-        Container(width: width*0.1,height: 1,decoration: BoxDecoration(color: Colors.grey),),
-        Text("Or"),
-        Container(width: width*0.1,height: 1,decoration: BoxDecoration(color: Colors.grey),)
-      ],
-    ),
+Widget _divider() {
+  return Row(
+    children: [
+      Expanded(child: Container(height: 1, color: Colors.grey[300])),
+      const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Text("Or", style: TextStyle(color: Colors.grey)),
+      ),
+      Expanded(child: Container(height: 1, color: Colors.grey[300])),
+    ],
   );
 }
 
+Widget _signUpOption() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Text("Don't you have an account? "),
+      GestureDetector(
+        onTap: () {},
+        child: const Text(
+          "Sign up",
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontFamily: 'Nunito'),
+        ),
+      )
+    ],
+  );
+}
 
-Widget _signUpOption(double height, double width){
+Widget _image(BuildContext context) {
+  double height = MediaQuery.of(context).size.height;
+  double width = MediaQuery.of(context).size.width;
   return Container(
-    width: width*0.3,
-    height: height*0.1,
-    child: Row(
-      children: [
-        Text("Dont have any account?"),
-        Text("Sign Up",style: TextStyle(color: Colors.blue[400]),)
-      ],
+   
+    height: height,width: width*0.55,
+   // margin: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      //borderRadius: BorderRadius.circular(20),
+      image: const DecorationImage(
+        image: AssetImage("assets/images/LoginPageImage3.jpg"),
+        fit: BoxFit.cover,
+      ),
     ),
   );
 }

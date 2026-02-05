@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 
-Widget HeaderText(String topText,String bottomText,double height,double width){
-  return Container(
-    height: height*0.2,width: width*0.3,
-    child: Column(
+class HeaderText extends StatelessWidget {
+  const HeaderText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Welcome Back",style: TextStyle(fontSize: 18),),
-        SizedBox(height: height*0.05,),
-        Text("Today is a new day. It's your day. You shape it.",style: _textStyle(),),
-        Text("Sign In to Continue",style: _textStyle(),)
+        const Text(
+          "Welcome Back ",
+          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold,fontFamily: 'Nunito'),
+        ),
+        const SizedBox(height: 5),
+         Text(
+          "Today is a new day. It's your day. You shape it.",
+          style: _textStyle(),
+        ),
+         Text(
+          "Sign In to start managing your projects.",
+          style: _textStyle(),
+        )
       ],
-    ),
-  );
+    );
+  }
 }
 
 TextStyle _textStyle(){
-  return TextStyle(
-    fontSize: 12
-  );
+  return TextStyle(fontSize: 11, color: Colors.grey);
 }

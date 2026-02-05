@@ -3,36 +3,43 @@ import 'package:flutter/material.dart';
 class TextfieldWidget extends StatelessWidget {
   final String name;
   final String bodyText;
-  final double boxWidth;
-  final double boxHeight;
-  const TextfieldWidget({super.key, required this.name,required this.bodyText,required this.boxHeight,required this.boxWidth});
   
-
+  const TextfieldWidget({
+    super.key, 
+    required this.name,
+    required this.bodyText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
+  double width = MediaQuery.of(context).size.width;
     return Container(
-      padding: EdgeInsets.only(left: boxWidth * width*0.1, top:boxHeight * height*0.1),
+      height: height*0.09,width: width*0.3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name),
+          Text(name, style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 12)),
+          SizedBox(height: 4,),
           Container(
-            width: boxWidth*width,
-            height: boxWidth*height,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(boxWidth*0.02)),
-              color: const Color.fromARGB(255, 227, 226, 226),
-              border: Border.all(color: Colors.black)
+              borderRadius: BorderRadius.circular(5),
+              color: const Color(0xFFF3F7FB), 
+              
             ),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: bodyText,
-                hintStyle: TextStyle(color: const Color.fromARGB(255, 123, 123, 123))
+            child: Container(
+              height: height*0.055,width: width*0.3,
+              child: TextField(
+                style: TextStyle(fontSize: 12),
+                decoration: InputDecoration(
+                  isDense: true,
+                  
+                  hintText: bodyText,
+                  hintStyle: const TextStyle(color: Color.fromARGB(255, 170, 170, 170), fontSize: 12,fontFamily: 'Nunito'),
+                  border: InputBorder.none,
+                 contentPadding: const EdgeInsets.only(left: 12, top: 12),
+                ),
               ),
-              maxLength: null,
             ),
           )
         ],
